@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="hi" class="bg-gray-100 text-gray-800 transition-colors duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SarkariKredit</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* एनिमेशन और डार्क मोड के लिए कस्टम CSS */
+        body { font-family: 'Inter', sans-serif; }
+        .animate-fadeIn { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-scroll {
+            animation: scroll-left 25s linear infinite;
+        }
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .hero-banner { display: none; }
+        .hero-banner.active { display: block; }
+        .dark .bg-gray-100 { background-color: #1a202c; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .bg-white { background-color: #2d3748; }
+        .dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.12); }
+        .dark .text-gray-600 { color: #a0aec0; }
+        .dark .text-gray-700 { color: #cbd5e0; }
+        .dark .text-indigo-600 { color: #9f7aea; }
+        .dark .text-green-500 { color: #68d391; }
+        .dark .hover-dark-bg:hover { background-color: #4a5568; }
+        
+        /* मोबाइल के लिए ऐप प्रोमो बैनर */
+        @media (min-width: 768px) {
+            .app-promo-mobile { display: none; }
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300 min-h-screen flex flex-col">
+
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md sticky top-0 z-50 w-full transition-colors duration-300 dark:bg-gray-800 dark:shadow-xl">
+        <nav class="w-full px-6 py-4 flex justify-between items-center">
+            <!-- Website Logo/Name -->
+            <a href="#" class="text-2xl font-bold text-indigo-600 transition-colors duration-300">Sarkari<span class="text-green-500">Kredit</span></a>
+            
+            <!-- Navigation Links (Hidden on small screens) -->
+            <div class="hidden md:flex items-center space-x-6 text-gray-600 font-medium dark:text-gray-400">
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">होम</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">मॉक टेस्ट</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">करंट अफेयर्स</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">अध्ययन सामग्री</a>
+                <a href="#" class="hover:text-indigo-600 transition-colors duration-200">सरकारी योजनाएं</a>
+            </div>
+            
+            <!-- User Actions, Search Bar & Dark Mode Toggle -->
+            <div class="flex items-center space-x-4">
+                <div class="relative hidden md:block">
+                    <!-- स्मार्ट सर्च बार (वॉइस सर्च के लिए जगह) -->
+                    <input type="text" placeholder="खोजें... (वॉइस सर्च)" class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+                    <!-- वॉइस सर्च आइकन यहां जोड़ा जा सकता है -->
+                </div>
+                <!-- डार्क मोड टॉगल बटन -->
+                <button id="theme-toggle" class="p-2 rounded-full text-gray-600 hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-700">
+                    <i id="theme-icon" class="fas fa-sun text-xl"></i>
+                </button>
+                <button class="bg-indigo-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    लॉगिन / रजिस्टर
+                </button>
+                <!-- मोबाइल मेनू बटन -->
+                <button class="md:hidden text-gray-600 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-300">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full">
+        <!-- हीरो सेक्शन -->
+        <section id="hero-carousel" class="text-center mb-8 p-8 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-3xl shadow-2xl overflow-hidden relative w-full">
+            <div class="px-6 max-w-7xl mx-auto">
+                <!-- बैनर जावास्क्रिप्ट द्वारा हैंडल किए जाएंगे -->
+                <div class="hero-banner active animate-fadeIn">
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+                        सफलता की ओर आपका पहला कदम!
+                    </h1>
+                    <p class="text-lg md:text-xl mb-8 opacity-90 font-light">
+                        मॉक टेस्ट, नोट्स, करंट अफेयर्स और सरकारी नौकरी अपडेट्स के साथ अपनी तैयारी को मजबूत करें।
+                    </p>
+                    <a href="#" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg transform hover:scale-105">
+                        शुरू करें
+                    </a>
+                </div>
+                <div class="hero-banner">
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+                        नवीनतम सरकारी नौकरियाँ
+                    </h1>
+                    <p class="text-lg md:text-xl mb-8 opacity-90 font-light">
+                        अभी आवेदन करें! सभी नवीनतम जॉब नोटिफिकेशन यहाँ देखें।
+                    </p>
+                    <a href="#" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg transform hover:scale-105">
+                        अभी आवेदन करें
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- लाइव अपडेट्स टिकर -->
+        <section class="bg-indigo-600 text-white p-3 mb-8 overflow-hidden shadow-lg w-full">
+            <div class="px-6 flex items-center max-w-7xl mx-auto">
+                <i class="fas fa-bullhorn text-xl mr-4 flex-shrink-0 animate-pulse"></i>
+                <div class="whitespace-nowrap overflow-hidden">
+                    <span class="text-sm font-medium animate-scroll inline-block">
+                        • SSC CGL एडमिट कार्ड जारी • UPSC Prelims 2024 परिणाम घोषित • रेलवे ग्रुप D परीक्षा तिथि घोषित
+                    </span>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- क्विक एक्सेस टाइल्स -->
+        <section class="mb-12 w-full">
+            <div class="px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                    <div class="text-indigo-600 group-hover:text-indigo-700 transition-colors duration-300">
+                        <i class="fas fa-edit text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">मॉक टेस्ट</span>
+                </a>
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                    <div class="text-green-600 group-hover:text-green-700 transition-colors duration-300">
+                        <i class="fas fa-book text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">नोट्स</span>
+                </a>
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                    <div class="text-red-600 group-hover:text-red-700 transition-colors duration-300">
+                        <i class="fas fa-file-pdf text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">PDFs</span>
+                </a>
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                    <div class="text-yellow-600 group-hover:text-yellow-700 transition-colors duration-300">
+                        <i class="fas fa-newspaper text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">करंट अफेयर्स</span>
+                </a>
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                    <div class="text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
+                        <i class="fas fa-award text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">परिणाम</span>
+                </a>
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                    <div class="text-purple-600 group-hover:text-purple-700 transition-colors duration-300">
+                        <i class="fas fa-handshake text-3xl"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">योजनाएं</span>
+                </a>
+            </div>
+        </section>
+
+
+        <div class="px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            <!-- लेफ्ट कॉलम: दैनिक अभ्यास और परीक्षा कैलेंडर -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- दैनिक अभ्यास सेक्शन -->
+                <section class="bg-white p-6 rounded-2xl shadow-lg dark:bg-gray-800">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">
+                        <i class="fas fa-brain text-indigo-600 mr-2"></i> दैनिक अभ्यास
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl dark:bg-gray-700">
+                            <span class="text-lg font-medium dark:text-gray-300">आज का प्रश्न</span>
+                            <a href="#" class="bg-indigo-500 text-white px-4 py-2 rounded-full text-sm hover:bg-indigo-600 transition-colors">उत्तर दें</a>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl dark:bg-gray-700">
+                            <span class="text-lg font-medium dark:text-gray-300">दैनिक करंट अफेयर्स क्विज</span>
+                            <a href="#" class="bg-green-500 text-white px-4 py-2 rounded-full text-sm hover:bg-green-600 transition-colors">शुरू करें</a>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- परीक्षा कैलेंडर विजेट -->
+                <section class="bg-white p-6 rounded-2xl shadow-lg dark:bg-gray-800">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">
+                        <i class="fas fa-calendar-alt text-red-600 mr-2"></i> आगामी परीक्षाएँ
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-700">
+                            <span class="font-medium dark:text-gray-300">SSC CGL 2024</span>
+                            <span class="text-sm text-white px-3 py-1 rounded-full bg-blue-500">फॉर्म भरें</span>
+                        </li>
+                        <li class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-700">
+                            <span class="font-medium dark:text-gray-300">UPSC NDA Exam</span>
+                            <span class="text-sm text-white px-3 py-1 rounded-full bg-green-500">एडमिट कार्ड</span>
+                        </li>
+                        <li class="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-700">
+                            <span class="font-medium dark:text-gray-300">IBPS PO Result</span>
+                            <span class="text-sm text-white px-3 py-1 rounded-full bg-red-500">परिणाम घोषित</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            
+            <!-- राइट कॉलम: यूजर डैशबोर्ड और लीडरबोर्ड -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- यूजर डैशबोर्ड स्नैपशॉट (लॉगिन प्रॉम्प्ट) -->
+                <section class="bg-white p-6 rounded-2xl shadow-lg text-center dark:bg-gray-800">
+                    <h3 class="text-xl font-bold mb-2 text-gray-700 dark:text-gray-200">अपनी प्रगति ट्रैक करें</h3>
+                    <p class="text-gray-600 mb-4 dark:text-gray-400">लॉगिन करके अपने बुकमार्क, टेस्ट हिस्ट्री और परफॉरमेंस देखें।</p>
+                    <a href="#" class="inline-block bg-green-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-green-600 transition-colors duration-200">लॉगिन / रजिस्टर करें</a>
+                </section>
+                
+                <!-- लीडरबोर्ड सेक्शन -->
+                <section class="bg-white p-6 rounded-2xl shadow-lg dark:bg-gray-800">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-200">
+                        <i class="fas fa-trophy text-yellow-500 mr-2"></i> लीडरबोर्ड
+                    </h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center justify-between font-medium p-2 rounded-lg dark:text-gray-300">
+                            <span>1. राहुल शर्मा</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">2500 अंक</span>
+                        </li>
+                        <li class="flex items-center justify-between font-medium p-2 rounded-lg dark:text-gray-300">
+                            <span>2. प्रिया सिंह</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">2450 अंक</span>
+                        </li>
+                        <li class="flex items-center justify-between font-medium p-2 rounded-lg dark:text-gray-300">
+                            <span>3. अमित कुमार</span>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">2400 अंक</span>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        
+        <!-- मोबाइल के लिए ऐप प्रोमो बैनर -->
+        <section class="app-promo-mobile fixed bottom-0 left-0 right-0 bg-indigo-600 text-white p-4 text-center shadow-lg dark:bg-indigo-800">
+            <p class="font-semibold text-sm">SarkariKredit ऐप इंस्टॉल करें!</p>
+            <a href="#" class="mt-2 inline-block bg-white text-indigo-600 px-4 py-2 rounded-full font-bold text-sm">अभी इंस्टॉल करें</a>
+        </section>
+    </main>
+
+
+    <!-- फुटर -->
+    <footer class="bg-gray-800 text-gray-300 py-8 transition-colors duration-300 dark:bg-gray-900 mt-auto">
+        <div class="px-6 text-center max-w-7xl mx-auto">
+            <p>&copy; 2024 SarkariKredit. सभी अधिकार सुरक्षित हैं।</p>
+        </div>
+    </footer>
+
+
+    <!-- फ्लोटिंग चैटबॉट बटन -->
+    <button class="fixed bottom-4 right-4 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors duration-300 dark:bg-green-700 dark:hover:bg-green-800">
+        <i class="fas fa-comment-dots text-2xl"></i>
+    </button>
+
+
+    <script>
+        // डार्क मोड टॉगल लॉजिक
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const themeIcon = document.getElementById('theme-icon');
+
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                htmlElement.classList.add('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.classList.remove('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+        
+        // हीरो सेक्शन कैरोसेल लॉजिक
+        const heroBanners = document.querySelectorAll('.hero-banner');
+        let currentBanner = 0;
+        
+        function showNextBanner() {
+            heroBanners[currentBanner].classList.remove('active');
+            currentBanner = (currentBanner + 1) % heroBanners.length;
+            heroBanners[currentBanner].classList.add('active');
+            heroBanners[currentBanner].classList.add('animate-fadeIn');
+            setTimeout(() => {
+                heroBanners[currentBanner].classList.remove('animate-fadeIn');
+            }, 800);
+        }
+        
+        // हर 5 सेकंड में बैनर बदलें
+        setInterval(showNextBanner, 5000);
+        
+    </script>
+</body>
+</html>
+
+
+
