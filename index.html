@@ -13,7 +13,7 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* एनिमेशन और डार्क मोड के लिए कस्टम CSS */
+        /* Custom CSS for animations and dark mode */
         body { font-family: 'Inter', sans-serif; }
         .animate-fadeIn { animation: fadeIn 0.8s ease-in-out; }
         @keyframes fadeIn {
@@ -29,6 +29,9 @@
         }
         .hero-banner { display: none; }
         .hero-banner.active { display: block; }
+
+
+        /* Dark Mode Styles */
         .dark .bg-gray-100 { background-color: #1a202c; }
         .dark .text-gray-800 { color: #e2e8f0; }
         .dark .bg-white { background-color: #2d3748; }
@@ -38,10 +41,51 @@
         .dark .text-indigo-600 { color: #9f7aea; }
         .dark .text-green-500 { color: #68d391; }
         .dark .hover-dark-bg:hover { background-color: #4a5568; }
-        
-        /* मोबाइल के लिए ऐप प्रोमो बैनर */
+        .dark .border-gray-300 { border-color: #4a5568; }
+
+
+        /* Mobile App Promo Banner */
         @media (min-width: 768px) {
             .app-promo-mobile { display: none; }
+        }
+
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .mobile-menu-overlay.open {
+            display: flex;
+            opacity: 1;
+        }
+        .mobile-menu {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 80%;
+            max-width: 400px;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .mobile-menu-overlay.open .mobile-menu {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .dark .mobile-menu {
+            background-color: #2d3748;
+            color: #e2e8f0;
         }
     </style>
 </head>
@@ -50,7 +94,7 @@
 
     <!-- Header Section -->
     <header class="bg-white shadow-md sticky top-0 z-50 w-full transition-colors duration-300 dark:bg-gray-800 dark:shadow-xl">
-        <nav class="w-full px-6 py-4 flex justify-between items-center">
+        <nav class="w-full px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
             <!-- Website Logo/Name -->
             <a href="#" class="text-2xl font-bold text-indigo-600 transition-colors duration-300">Sarkari<span class="text-green-500">Kredit</span></a>
             
@@ -69,7 +113,6 @@
                     <!-- स्मार्ट सर्च बार (वॉइस सर्च के लिए जगह) -->
                     <input type="text" placeholder="खोजें... (वॉइस सर्च)" class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
-                    <!-- वॉइस सर्च आइकन यहां जोड़ा जा सकता है -->
                 </div>
                 <!-- डार्क मोड टॉगल बटन -->
                 <button id="theme-toggle" class="p-2 rounded-full text-gray-600 hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-700">
@@ -79,7 +122,7 @@
                     लॉगिन / रजिस्टर
                 </button>
                 <!-- मोबाइल मेनू बटन -->
-                <button class="md:hidden text-gray-600 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-300">
+                <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-300">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
@@ -87,11 +130,30 @@
     </header>
 
 
+    <!-- Mobile Menu Overlay (Hidden by default) -->
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+        <div class="mobile-menu shadow-2xl dark:bg-gray-800">
+            <div class="flex justify-end">
+                <button id="close-mobile-menu" class="text-gray-600 dark:text-gray-300 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-4 text-center mt-4">
+                <a href="#" class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-200 dark:hover:text-indigo-400">होम</a>
+                <a href="#" class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-200 dark:hover:text-indigo-400">मॉक टेस्ट</a>
+                <a href="#" class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-200 dark:hover:text-indigo-400">करंट अफेयर्स</a>
+                <a href="#" class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-200 dark:hover:text-indigo-400">अध्ययन सामग्री</a>
+                <a href="#" class="text-lg font-medium text-gray-700 hover:text-indigo-600 transition-colors duration-200 dark:text-gray-200 dark:hover:text-indigo-400">सरकारी योजनाएं</a>
+            </nav>
+        </div>
+    </div>
+
+
     <!-- Main Content -->
     <main class="flex-grow w-full">
         <!-- हीरो सेक्शन -->
         <section id="hero-carousel" class="text-center mb-8 p-8 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-3xl shadow-2xl overflow-hidden relative w-full">
-            <div class="px-6 max-w-7xl mx-auto">
+            <div class="px-6 max-w-7xl mx-auto py-8">
                 <!-- बैनर जावास्क्रिप्ट द्वारा हैंडल किए जाएंगे -->
                 <div class="hero-banner active animate-fadeIn">
                     <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
@@ -135,37 +197,37 @@
         <!-- क्विक एक्सेस टाइल्स -->
         <section class="mb-12 w-full">
             <div class="px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
-                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 ring-2 ring-transparent group-hover:ring-indigo-500">
                     <div class="text-indigo-600 group-hover:text-indigo-700 transition-colors duration-300">
                         <i class="fas fa-edit text-3xl"></i>
                     </div>
                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">मॉक टेस्ट</span>
                 </a>
-                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 ring-2 ring-transparent group-hover:ring-green-500">
                     <div class="text-green-600 group-hover:text-green-700 transition-colors duration-300">
                         <i class="fas fa-book text-3xl"></i>
                     </div>
                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">नोट्स</span>
                 </a>
-                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 ring-2 ring-transparent group-hover:ring-red-500">
                     <div class="text-red-600 group-hover:text-red-700 transition-colors duration-300">
                         <i class="fas fa-file-pdf text-3xl"></i>
                     </div>
                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">PDFs</span>
                 </a>
-                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 ring-2 ring-transparent group-hover:ring-yellow-500">
                     <div class="text-yellow-600 group-hover:text-yellow-700 transition-colors duration-300">
                         <i class="fas fa-newspaper text-3xl"></i>
                     </div>
                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">करंट अफेयर्स</span>
                 </a>
-                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 ring-2 ring-transparent group-hover:ring-blue-500">
                     <div class="text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
                         <i class="fas fa-award text-3xl"></i>
                     </div>
                     <span class="text-sm font-medium text-gray-700 dark:text-gray-300">परिणाम</span>
                 </a>
-                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800">
+                <a href="#" class="group bg-white p-4 rounded-xl shadow-lg flex flex-col items-center justify-center space-y-2 transform hover:scale-105 transition-all duration-300 dark:bg-gray-800 ring-2 ring-transparent group-hover:ring-purple-500">
                     <div class="text-purple-600 group-hover:text-purple-700 transition-colors duration-300">
                         <i class="fas fa-handshake text-3xl"></i>
                     </div>
@@ -326,6 +388,30 @@
         
         // हर 5 सेकंड में बैनर बदलें
         setInterval(showNextBanner, 5000);
+
+
+        // मोबाइल मेनू टॉगल लॉजिक
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.add('open');
+        });
+
+
+        closeMobileMenuButton.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('open');
+        });
+
+
+        // क्लिक करने पर ओवरले बंद करें (मेनू के बाहर क्लिक करने पर)
+        mobileMenuOverlay.addEventListener('click', (event) => {
+            if (event.target === mobileMenuOverlay) {
+                mobileMenuOverlay.classList.remove('open');
+            }
+        });
         
     </script>
 </body>
